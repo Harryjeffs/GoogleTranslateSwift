@@ -22,5 +22,6 @@ public protocol GoogleTranslateService {
         _ text: String,
         from: Locale,
         to: Locale,
+		textType: GoogleTranslateApiRoute.TextType,
         completion: @escaping ApiCompletion<GoogleTranslateTranslationResult>)
 }

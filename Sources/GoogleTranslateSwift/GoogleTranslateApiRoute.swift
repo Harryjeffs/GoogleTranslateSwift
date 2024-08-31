@@ -11,9 +11,20 @@ import SwiftKit
 
 public enum GoogleTranslateApiRoute: ApiRoute {
     
-    case detectLanguage(in: String, apiKey: String)
-    case languages(apiKey: String)
-    case translate(String, from: Locale, to: Locale, apiKey: String)
+	case detectLanguage(
+		in: String,
+		apiKey: String
+	)
+	case languages(
+		apiKey: String
+	)
+	case translate(
+		String,
+		from: Locale,
+		to: Locale,
+		textType: TextType,
+		apiKey: String
+	)
     
     public var path: String {
         switch self {
@@ -35,12 +46,21 @@ public enum GoogleTranslateApiRoute: ApiRoute {
             return params
         case .languages(let key):
             return ["key": key]
-        case .translate(let text, let from, let to, let key):
+		case .translate(let text, let from, let to, let textType, let key):
             var params = ["key": key]
             params["q"] = text
+			params["format"] = textType.rawValue
             params["source"] = from.languageCode ?? ""
             params["target"] = to.languageCode ?? ""
             return params
         }
     }
+	
+	// The format of the source text, in either HTML (default) or plain-text. A value of html indicates HTML and a value of text indicates plain-text.
+	public enum TextType: String {
+		/// Default for the `translate` endpoint `format` parameter
+		case html
+		/// `text` option which maintains line breaks in translation input & output
+		case text
+	}
 }

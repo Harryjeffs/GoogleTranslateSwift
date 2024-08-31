@@ -37,12 +37,25 @@ public class GoogleTranslateApiService: ApiService, GoogleTranslateService {
             completion: completion)
     }
     
-    public func translate(_ text: String, from: Locale, to: Locale, completion: @escaping ApiCompletion<GoogleTranslateTranslationResult>) {
+	public func translate(
+		_ text: String,
+		from: Locale,
+		to: Locale,
+		textType: GoogleTranslateApiRoute.TextType = .html,
+		completion: @escaping ApiCompletion<GoogleTranslateTranslationResult>
+	) {
         performTask(
-            for: GoogleTranslateApiRoute.translate(text, from: from, to: to, apiKey: apiKey),
-            type: GoogleTranslateTranslationApiResult.self,
-            httpMethod: .post,
-            completion: completion)
+			for: GoogleTranslateApiRoute.translate(
+				text,
+				from: from,
+				to: to,
+				textType: textType,
+				apiKey: apiKey
+			),
+			type: GoogleTranslateTranslationApiResult.self,
+			httpMethod: .post,
+			completion: completion
+		)
     }
     
 }
